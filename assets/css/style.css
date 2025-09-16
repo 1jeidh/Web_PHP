@@ -132,3 +132,27 @@ button:hover{
 #home span{
     color: coral;
 }
+
+#new .pd1 img{
+    width: 26rem;
+    height: 18rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#new .pd2 img{
+    width: 16rem;
+    height: 18rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#new .pd3 img{
+    width: 14rem;
+    height: 18rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
