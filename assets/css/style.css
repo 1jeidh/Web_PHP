@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400&display=swap');
 
 .nav-buttons{
-    margin-left: 60%;
-
+    margin-left: 70%;
 }
 
 *{
@@ -155,4 +154,55 @@ button:hover{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+#new .pd1, 
+#new .pd2, 
+#new .pd3 {
+    position: relative;
+}
+
+#new .pd1 .details, 
+#new .pd2 .details, 
+#new .pd3 .details{
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgb(252, 155, 28);
+    font-weight: bold;
+    transition: 0.4s ease;
+    opacity: 0.8;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+}
+
+#new .pd1 .details{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: start;
+}
+
+#new .pd2 .details{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#new .pd3 .details{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: end;
+}
+
+#new .pd1 .details:hover, 
+#new .pd2 .details:hover, 
+#new .pd3 .details:hover{
+    background-color: cornsilk;
 }
