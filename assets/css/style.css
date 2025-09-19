@@ -216,7 +216,7 @@ button:hover{
     transition: 0.3s all;
     width: 90%;
     height: 25rem;  
-    object-fit: cover; 
+    object-fit: fill; 
 }
 
 .product:hover img{
