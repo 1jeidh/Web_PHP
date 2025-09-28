@@ -345,3 +345,19 @@ footer .copyright img{
     width: 100%;
     height: 60%;
 }
+
+.pagination a{
+    color: coral;
+}
+
+.pagination li:hover a{
+    color: #fff;
+    background-color: coral;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
