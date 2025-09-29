@@ -487,3 +487,26 @@ th:last-child{
     display: flex;
     justify-content: flex-end;
 }
+
+/* Login */
+#login-form{
+    width: 50%;
+    margin: 5px auto;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #fb774b;
+}
+
+#login-form input{
+    width: 50%;
+    margin: 5px auto;
+}
+
+#login-form #login-btn{
+    background-color: #fb774b;
+    color: #fff;
+}
+
+#login-form #register-url{
+    color: #fb774b;
+}
