@@ -48,8 +48,18 @@ if(isset($_POST['add_to_cart'])){
             break;
         }
     }
-}
+}else if(isset($_POST['edit_quantity'])){
 
+    //id+quantity from form
+    $product_id = $_POST['product_id'];
+    $product_quantity = $_POST['product_quantity'];
+    //get product array from session
+    $product_array = $_SESSION['cart'][$product_id];
+    //update product quantity
+    $product_array['product_quantity'] = $product_quantity;
+    //return array back
+    $_SESSION['cart'][$product_id] = $product_array;
+}
 
 ?>
 <!DOCTYPE html>
@@ -129,8 +139,12 @@ if(isset($_POST['add_to_cart'])){
                         </td>
 
                         <td>
-                            <input type="number" value="<?php echo $value['product_quantity']; ?>"/>
-                            <a class="edit-btn" href="#">Edit</a>
+                            <form method="POST" action="cart.php">
+                                <input type="hidden" name="product_id" value="<?php echo $value['product_id'];?>"/>
+                                <input type="number" name="product_quantity" value="<?php echo $value['product_quantity']; ?>"/>
+                                <input type="submit" class="edit-btn" value="edit" name="edit_quantity"/>
+                            </form>
+                            
                         </td>
 
                         <td>
