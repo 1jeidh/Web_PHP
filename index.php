@@ -136,8 +136,10 @@
                 <p>Here you can check out our amazing clothes</p>
             </div>
             <div class="row mx-auto container-fluid">
+                <?php include('server/get_coats.php'); ?>
+                <?php while($row = $coats_products->fetch_assoc()){?>
                 <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/clothes1.jpg">
+                    <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'];?>">
                     <div class="star">
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
@@ -145,49 +147,11 @@
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
                     </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
+                    <h5 class="p-name"><?php echo $row['product_name'];?></h5>
+                    <h4 class="p-price"><?php echo $row['product_price'];?></h4>
                     <button class="buy-btn">Buy now</button>
                 </div>
-                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/clothes2.jpg">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy now</button>
-                </div>
-                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/clothes3.jpg">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy now</button>
-                </div>
-                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/clothes4.jpg">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy now</button>
-                </div>
+                <?php }?>
             </div>
         </section>
 
@@ -199,8 +163,10 @@
                 <p>Check out our unique wacthes</p>
             </div>
             <div class="row mx-auto container-fluid">
+                <?php include('server/get_watches.php'); ?>
+                <?php while($row = $watches_products->fetch_assoc()){?>
                 <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/watch1.jpg">
+                    <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'];?>">
                     <div class="star">
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
@@ -208,49 +174,11 @@
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
                     </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
+                    <h5 class="p-name"><?php echo $row['product_name'];?></h5>
+                    <h4 class="p-price"><?php echo $row['product_price'];?></h4>
                     <button class="buy-btn">Buy now</button>
                 </div>
-                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/watch2.jpg">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy now</button>
-                </div>
-                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/watch3.jpg">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy now</button>
-                </div>
-                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/watch4.jpg">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy now</button>
-                </div>
+                <?php }?>
             </div>
         </section>
 
@@ -262,8 +190,10 @@
                 <p>Here you can check out our amazing shoes</p>
             </div>
             <div class="row mx-auto container-fluid">
+                <?php include('server/get_shoes.php'); ?>
+                <?php while($row = $shoes_products->fetch_assoc()){?>
                 <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/shoes1.jpg">
+                    <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'];?>">
                     <div class="star">
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
@@ -271,49 +201,11 @@
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
                     </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
+                    <h5 class="p-name"><?php echo $row['product_name'];?></h5>
+                    <h4 class="p-price"><?php echo $row['product_price'];?></h4>
                     <button class="buy-btn">Buy now</button>
                 </div>
-                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/shoes2.jpg">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy now</button>
-                </div>
-                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/shoes3.jpg">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy now</button>
-                </div>
-                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/shoes4.jpg">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy now</button>
-                </div>
+                <?php }?>
             </div>
         </section>
 
