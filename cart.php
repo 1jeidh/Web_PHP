@@ -8,6 +8,7 @@ if(isset($_POST['add_to_cart'])){
         //already added?
         if(!in_array($_POST['product_id'], $product_array_ids)){
 
+            $product_id = $_POST['product_id'];
             $product_array = array(
                 'product_id' => $_POST['product_id'],
                 'product_name' => $_POST['product_name'],
@@ -39,9 +40,16 @@ if(isset($_POST['add_to_cart'])){
 
         $_SESSION['cart'][$product_id] = $product_array;
     }
-}else{
-    header('location: index.php');
+//remove product
+}else if(isset($_POST['remove_product'])){
+    foreach($_SESSION['cart'] as $key => $value){
+        if($value['product_id'] == $_POST['product_id']){
+            unset($_SESSION['cart'][$key]);
+            break;
+        }
+    }
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -109,9 +117,13 @@ if(isset($_POST['add_to_cart'])){
                                 <img src="assets/imgs/<?php echo $value['product_image']; ?>"/>
                                 <div>
                                     <p><?php echo $value['product_name']; ?></p>
-                                    <small><span>$</span><?php echo $value['product_price']; ?></small>
+                                    <small><span style="padding-left: 4px;">$</span><?php echo $value['product_price']; ?></small>
                                     <br>
-                                    <a class="remove-btn" href="#">Remove</a>
+                                    <form method="POST" action="cart.php">
+                                        <input type="hidden" name="product_id" value="<?php echo $value['product_id']; ?>"/>
+                                        <input type="submit" name="remove_product" class="remove-btn" value="remove"/>
+                                    </form>
+                                    
                                 </div>
                             </div>
                         </td>
