@@ -1,3 +1,23 @@
+<?php
+
+session_start();
+
+if(!isset($_SESSION['logged_in'])){
+    header('location: login.php');
+    exit;
+}
+
+if(isset($_GET['logout'])){
+    if(isset($_SESSION['logged_in'])){
+        unset($_SESSION['logged_in']);
+        unset($_SESSION['user_email']);
+        unset($_SESSION['user_name']);
+        header('location: login.php');
+        exit;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,10 +69,10 @@
                     <h3 class="font-weight-bold">Account info</h3>
                     <hr class="mx-auto">
                     <div class="account-info">
-                        <p>Name <span>Jason</span></p>
-                        <p>Email <span>jason@gmail.com</span></p>
-                        <p><a href="#" id="orders-btn">Your orders</a></p>
-                        <p><a href="#" id="logout-btn">Logout</a></p>
+                        <p>Name <span><?php if(isset($_SESSION['user_name'])){ echo $_SESSION['user_name'];} ?></span></p>
+                        <p>Email <span><?php if(isset($_SESSION['user_email'])){echo $_SESSION['user_email'];} ?></span></p>
+                        <p><a href="#orders" id="orders-btn">Your orders</a></p>
+                        <p><a href="account.php?logout=1" id="logout-btn">Logout</a></p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12">
@@ -76,7 +96,7 @@
         </section>
 
         <!--Orders-->
-        <section class="orders container my-5 py-3">
+        <section id="orders" class="orders container my-5 py-3">
             <div class="container mt-2">
                 <h2 class="font-weight-bold text-center">Your Orders</h2>
                 <hr class="mx-auto">

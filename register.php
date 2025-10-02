@@ -3,6 +3,11 @@
 session_start();
 include('server/connection.php');
 
+if(isset($_SESSION['logged_in'])){
+    header('location: account.php');
+    exit;
+}
+
 if(isset($_POST['register'])){
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -37,9 +42,6 @@ if(isset($_POST['register'])){
         }  
     }
 
-}elseif(isset($_SESSION['logged_in'])){
-    header('location: account.php');
-    exit;
 }
 
 ?>
@@ -68,7 +70,7 @@ if(isset($_POST['register'])){
                 <div class="collapse navbar-collapse nav-buttons" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">               
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home</a>
+                            <a class="nav-link" href="index.php">Home</a>
                         </li>
                         <li class="nav-item" >
                             <a class="nav-link" href="shop.html">Shop</a>
