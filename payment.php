@@ -1,92 +1,15 @@
 <?php
 
 session_start();
-if(isset($_POST['add_to_cart'])){
-    //not 1st
-    if(isset($_SESSION['cart'])){
-        $product_array_ids = array_column($_SESSION['cart'],"product_id");
-        //already added?
-        if(!in_array($_POST['product_id'], $product_array_ids)){
-
-            $product_id = $_POST['product_id'];
-            $product_array = array(
-                'product_id' => $_POST['product_id'],
-                'product_name' => $_POST['product_name'],
-                'product_price' => $_POST['product_price'],
-                'product_image' => $_POST['product_image'],
-                'product_quantity' => $_POST['product_quantity']
-            );
-
-            $_SESSION['cart'][$product_id] = $product_array;
-        // already added
-        }else{
-            echo '<script>alert("Product was already in the cart")</script>';
-        }
-    //1st time added
-    }else{
-        $product_id = $_POST['product_id'];
-        $product_name = $_POST['product_name'];
-        $product_price = $_POST['product_price'];
-        $product_image = $_POST['product_image'];
-        $product_quantity = $_POST['product_quantity'];
-
-        $product_array = array(
-            'product_id' => $product_id,
-            'product_name' => $product_name,
-            'product_price' => $product_price,
-            'product_image' => $product_image,
-            'product_quantity' => $product_quantity
-        );
-
-        $_SESSION['cart'][$product_id] = $product_array;
-    }
-    //update quantity
-    calculateTotalCart();
-
-//remove product
-}else if(isset($_POST['remove_product'])){
-    foreach($_SESSION['cart'] as $key => $value){
-        if($value['product_id'] == $_POST['product_id']){
-            unset($_SESSION['cart'][$key]);
-            break;
-        }
-    }   
-    calculateTotalCart();
-
-}else if(isset($_POST['edit_quantity'])){
-
-    //id+quantity from form
-    $product_id = $_POST['product_id'];
-    $product_quantity = $_POST['product_quantity'];
-    //get product array from session
-    $product_array = $_SESSION['cart'][$product_id];
-    //update product quantity
-    $product_array['product_quantity'] = $product_quantity;
-    //return array back
-    $_SESSION['cart'][$product_id] = $product_array;
-    calculateTotalCart();
-}
-
-function calculateTotalCart(){
-    $total = 0;
-    foreach($_SESSION['cart'] as $key => $value){
-        $product = $_SESSION['cart'][$key];
-        $price = $product['product_price'];
-        $quantity = $product['product_quantity'];
-
-        $total = $total + ($price * $quantity);
-    }
-    
-    $_SESSION['total'] = $total;
-}
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
+    <title>Check Out</title>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -125,69 +48,16 @@ function calculateTotalCart(){
             </div>	
         </nav>
 
-        <!--Cart-->
-        <section class="cart container my-5 py-5">
-            <div class="container mt-5">
-                <h2 class="font-weight-bold">Your Cart</h2>
-                <hr>
+        <!--Payment-->
+        <section class="my-5 py-5">
+            <div class="container text-center mt-3 pt-5">
+                <h2 class="font-weight-bold">Payment</h2>
+                <hr class="mx-auto">
             </div>
-
-            <table class="mt-5 pt-5">
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
-                </tr>
-
-                <?php foreach($_SESSION['cart'] as $key => $value){ ?>
-                    <tr>
-                        <td>
-                            <div class="product-info">
-                                <img src="assets/imgs/<?php echo $value['product_image']; ?>"/>
-                                <div>
-                                    <p><?php echo $value['product_name']; ?></p>
-                                    <small><span style="padding-left: 4px;">$</span><?php echo $value['product_price']; ?></small>
-                                    <br>
-                                    <form method="POST" action="cart.php">
-                                        <input type="hidden" name="product_id" value="<?php echo $value['product_id']; ?>"/>
-                                        <input type="submit" name="remove_product" class="remove-btn" value="remove"/>
-                                    </form>
-                                    
-                                </div>
-                            </div>
-                        </td>
-
-                        <td>
-                            <form method="POST" action="cart.php">
-                                <input type="hidden" name="product_id" value="<?php echo $value['product_id'];?>"/>
-                                <input type="number" name="product_quantity" value="<?php echo $value['product_quantity']; ?>"/>
-                                <input type="submit" class="edit-btn" value="edit" name="edit_quantity"/>
-                            </form>
-                            
-                        </td>
-
-                        <td>
-                            <span>$</span>
-                            <span class="product-price"><?php echo $value['product_quantity'] * $value['product_price'];?></span>
-                        </td>
-                    </tr>
-                <?php }?>
-                
-            </table>
-
-            <div class="cart-total">
-                <table>
-                    <tr>
-                        <td>Total</td>
-                        <td>$ <?php echo $_SESSION['total']; ?></td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="checkout-container">
-                <form method="POST" action="checkout.php">
-                    <input type="submit" class="btn checkout-btn" value="Checkout" name="checkout"/>
-                </form>              
+            <div class="mx-auto container text-center">
+                <p><?php echo $_GET['order_status']; ?></p>
+                <p>Total payment: $<?php echo $_SESSION['total'];?></p>
+                <input type="submit" class="btn btn-primary" value="Pay Now"/>
             </div>
         </section>
 
@@ -255,7 +125,7 @@ function calculateTotalCart(){
             </div>
         </div>
     </footer>
-   
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

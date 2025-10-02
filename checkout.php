@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if(!empty($_SESSION['cart']) && isset($_POST['checkout'])){
+
+}else{
+    header('location: index.php');
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +34,7 @@
                 <div class="collapse navbar-collapse nav-buttons" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">               
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home</a>
+                            <a class="nav-link" href="index.php">Home</a>
                         </li>
                         <li class="nav-item" >
                             <a class="nav-link" href="shop.html">Shop</a>
@@ -34,7 +46,7 @@
                             <a class="nav-link" href="contact.html">Contact Us</a>
                         </li>
                         <li class="nav-item">
-                            <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+                            <a href="cart.php"><i class="fa-solid fa-bag-shopping"></i></a>
                             <a href="account.html"><i class="fa-solid fa-user"></i></a>
                         </li>                            
                     </ul>
@@ -49,7 +61,7 @@
                 <hr class="mx-auto">
             </div>
             <div class="mx-auto container">
-                <form id="checkout-form">
+                <form id="checkout-form" method="POST" action="server/place_order.php">
                     <div class="form-group checkout-small-element">
                         <label>Name</label>
                         <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name" required/>
@@ -68,10 +80,11 @@
                     </div>
                     <div class="form-group checkout-large-element">
                         <label>Address</label>
-                        <input type="text" class="form-control" id="checkout-address" name="city" placeholder="Address" required/>
+                        <input type="text" class="form-control" id="checkout-address" name="address" placeholder="Address" required/>
                     </div>
                     <div class="form-group checkout-btn-container">
-                        <input type="submit" class="btn" id="checkout-btn" value="Checkout"/>
+                        <p>Total ammount: $<?php echo $_SESSION['total']; ?></p>
+                        <input type="submit" class="btn" id="checkout-btn" name="place_order" value="Place Order"/>
                     </div>
                 </form>
             </div>
