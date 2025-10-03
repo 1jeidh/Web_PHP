@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+include('server/connection.php');
 
 if(!isset($_SESSION['logged_in'])){
     header('location: login.php');
@@ -8,13 +9,39 @@ if(!isset($_SESSION['logged_in'])){
 }
 
 if(isset($_GET['logout'])){
-    if(isset($_SESSION['logged_in'])){
-        unset($_SESSION['logged_in']);
-        unset($_SESSION['user_email']);
-        unset($_SESSION['user_name']);
-        header('location: login.php');
-        exit;
+    session_unset();
+    session_destroy();
+    header('location: login.php');
+    exit;
+}
+
+if(isset($_POST['change_password'])){
+    $password = $_POST['password'];
+    $confirmPassword = $_POST['confirmPassword'];
+    $user_email = $_SESSION['user_email'];
+
+    if($password !== $confirmPassword){
+        header('location: account.php?error=password dont match');
+    }elseif(strlen($password) < 6){
+        header('location: account.php?error=password must be atleast 6 characters');
+    }else{
+        $stmt = $conn->prepare("UPDATE users SET user_password=? WHERE user_email=?");
+        $stmt->bind_param('ss', md5($password), $user_email);
+
+        if($stmt->execute()){
+            header('location: account.php?message=password has been updated successfully');
+        }else{
+            header('location: account.php?error=couldnt update password');
+        }
     }
+}
+
+if(isset($_SESSION['logged_in'])){
+    $user_id = $_SESSION['user_id'];
+    $stmt = $conn->prepare("SELECT * FROM orders WHERE user_id=? LIMIT 4");
+    $stmt->bind_param('i',$user_id);
+    $stmt->execute();
+    $orders = $stmt->get_result();
 }
 ?>
 
@@ -42,7 +69,7 @@ if(isset($_GET['logout'])){
                 <div class="collapse navbar-collapse nav-buttons" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">               
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home</a>
+                            <a class="nav-link" href="index.php">Home</a>
                         </li>
                         <li class="nav-item" >
                             <a class="nav-link" href="shop.html">Shop</a>
@@ -54,7 +81,7 @@ if(isset($_GET['logout'])){
                             <a class="nav-link" href="contact.html">Contact Us</a>
                         </li>
                         <li class="nav-item">
-                            <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+                            <a href="cart.php"><i class="fa-solid fa-bag-shopping"></i></a>
                             <a href="account.html"><i class="fa-solid fa-user"></i></a>
                         </li>                            
                     </ul>
@@ -66,6 +93,8 @@ if(isset($_GET['logout'])){
         <section class="my-5 py-5">
             <div class="row container mx-auto">
                 <div class="text-center mt-3 pt-5 col-lg-6 col-md-12 col-sm-12">
+                    <p class="text-center" style="color:green"><?php if(isset($_GET['register_success'])){echo $_GET['register_success'];} ?></p>
+                    <p class="text-center" style="color:green"><?php if(isset($_GET['login_success'])){echo $_GET['login_success'];} ?></p>
                     <h3 class="font-weight-bold">Account info</h3>
                     <hr class="mx-auto">
                     <div class="account-info">
@@ -76,7 +105,9 @@ if(isset($_GET['logout'])){
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12">
-                    <form id="account-form">
+                    <form id="account-form" method="POST" action="account.php">
+                        <p class="text-center" style="color:red"><?php if(isset($_GET['error'])){echo $_GET['error'];} ?></p>
+                        <p class="text-center" style="color:green"><?php if(isset($_GET['message'])){echo $_GET['message'];} ?></p>
                         <h3>Change Password</h3>
                         <hr class="mx-auto">
                         <div class="form-group">
@@ -88,7 +119,7 @@ if(isset($_GET['logout'])){
                             <input type="password" class="form-control" id="account-password-confirm" name="confirmPassword" placeholder="Confirm Password" required>
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Change Password" class="btn" id="change-pass-btn">
+                            <input type="submit" value="Change Password" name="change_password" class="btn" id="change-pass-btn">
                         </div>
                     </form>
                 </div>
@@ -104,23 +135,41 @@ if(isset($_GET['logout'])){
 
             <table class="mt-5 pt-5">
                 <tr>
-                    <th>Product</th>
-                    <th>Date</th>
+                    <th>Order Id</th>
+                    <th>Order Cost</th>
+                    <th>Order Status</th>
+                    <th>Order Date</th>
+                    <th>Order Details</th>
                 </tr>
-                <tr>
-                    <td>          
-                        <div class="product-info">
-                            <img src="assets/imgs/fe1.jpg"/>
-                            <div>
-                                <p class="mt-3">White Shoes</p>
-                            </div>
-                        </div> 
-                    </td>
 
-                    <td>
-                        <span>2025-5-8</span>    
-                    </td>
-                </tr>
+                <?php if (isset($orders) && $orders->num_rows > 0): ?>
+                    <?php while($row = $orders->fetch_assoc()): ?>
+                        <tr>
+                            <td>
+                                <span><?php echo $row['order_id']; ?></span>
+                            </td>
+                            <td>
+                                <span><?php echo $row['order_cost']; ?></span>
+                            </td>
+                            <td>
+                                <span><?php echo $row['order_status']; ?></span>
+                            </td>
+                            <td>
+                                <span><?php echo $row['order_date']; ?></span>
+                            </td>
+                            <td>
+                                <form>
+                                    <input class="btn order-details-btn" type="submit" value="details">
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4">You have no orders yet.</td>
+                    </tr>
+                <?php endif; ?>
+
             </table>
         </section>
 

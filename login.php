@@ -16,21 +16,23 @@ if(isset($_POST['login_btn'])){
     $stmt = $conn->prepare("SELECT user_id, user_name, user_email, user_password FROM users WHERE user_email = ? AND user_password = ? LIMIT 1");
     $stmt->bind_param('ss', $email, $password);
     if($stmt->execute()){
-        $stmt->bind_result($user_id, $user_name, $user_email, $user_password);
-        $stmt->store_result();
-        if($stmt->num_rows() == 1){
-            $row = $stmt->fetch();
-            $_SESSION['user_id'] = $user_id;
-            $_SESSION['user_name'] = $user_name;
-            $_SESSION['user_email'] = $user_email;
+        $result = $stmt->get_result();
+        if($result->num_rows == 1){
+            $user = $result->fetch_assoc();
+
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['user_name'] = $user['user_name'];
+            $_SESSION['user_email'] = $user['user_email'];
             $_SESSION['logged_in'] = true;
-            header('location: account.php?message=Logged in successfully');
-        }else{
+
+            header('location: account.php?login_success=Logged in successfully');
+            exit;
+        } else {
             header('location: login.php?error=Could not verify your account');
+            exit;
         }
-    }else{
-        header('location: login.php?error=Something went wrong');
     }
+
 }
 
 ?>

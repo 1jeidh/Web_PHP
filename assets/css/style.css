@@ -574,14 +574,14 @@ th:last-child{
 }
 
 .orders th{
-    text-align: left;
-    padding: 5px 10px;
+    /* text-align: left; */
+    padding: 5px 20px;
     color: #fff;
     background-color: #fb774b;
 }
 
-.orders th:nth-child(2){
-    text-align: right;
+.orders th:nth-child(5){
+    padding-right: 10px;
 }
 
 .orders td{
@@ -592,6 +592,11 @@ th:last-child{
     width: 80px;
     height: 80px;
     margin-right: 10px;
+}
+
+.orders .order-details-btn{
+    color: #fff;
+    background-color: #fb774b;
 }
 
 /* Checkout */
