@@ -4,6 +4,7 @@ include('server/connection.php');
 
 if(isset($_GET['order_details_btn']) && isset($_GET['order_id'])){
     $order_id = $_GET['order_id'];
+    $order_status = $_GET['order_status'];
     $stmt = $conn->prepare("SELECT * FROM order_items WHERE order_id = ?");
     $stmt->bind_param('i', $order_id);
     $stmt->execute();
@@ -91,7 +92,13 @@ if(isset($_GET['order_details_btn']) && isset($_GET['order_id'])){
                     
                     </tr>
                 <?php } ?>
+                
             </table>
+            <?php if($order_status == "not paid"){?>
+                <form style="float: right;">
+                    <input type="submit" class="btn btn-primary" value="Pay now">
+                </form>
+            <?php } ?>
         </section>
 
     <!--Footer-->
