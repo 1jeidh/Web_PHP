@@ -625,3 +625,20 @@ th:last-child{
 #contact span{
     color: #fb774b;
 }
+
+#shop .btn-primary {
+  background-color: coral;
+  border: none;
+  transition: 0.5s ease;
+}
+#shop .btn-primary:hover {
+  background-color: #1d1d1d;
+  transition: 0.5s ease;
+}
+
+.product .shop-img{
+    transition: 0.3s all;
+    width: 90%;
+    height: auto;  
+    object-fit: contain; 
+}
