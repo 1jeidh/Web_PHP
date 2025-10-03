@@ -26,7 +26,8 @@ if(isset($_POST['change_password'])){
         header('location: account.php?error=password must be atleast 6 characters');
     }else{
         $stmt = $conn->prepare("UPDATE users SET user_password=? WHERE user_email=?");
-        $stmt->bind_param('ss', md5($password), $user_email);
+        $hashed_password = md5($password);
+        $stmt->bind_param('ss', $hashed_password, $user_email);
 
         if($stmt->execute()){
             header('location: account.php?message=password has been updated successfully');
@@ -158,8 +159,9 @@ if(isset($_SESSION['logged_in'])){
                                 <span><?php echo $row['order_date']; ?></span>
                             </td>
                             <td>
-                                <form>
-                                    <input class="btn order-details-btn" type="submit" value="details">
+                                <form method="GET" action="order_details.php">
+                                    <input type="hidden" value="<?php echo $row['order_id']; ?>" name="order_id">
+                                    <input class="btn order-details-btn" name="order_details_btn" type="submit" value="details">
                                 </form>
                             </td>
                         </tr>

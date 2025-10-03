@@ -1,3 +1,20 @@
+<?php 
+
+include('server/connection.php');
+
+if(isset($_GET['order_details_btn']) && isset($_GET['order_id'])){
+    $order_id = $_GET['order_id'];
+    $stmt = $conn->prepare("SELECT * FROM order_items WHERE order_id = ?");
+    $stmt->bind_param('i', $order_id);
+    $stmt->execute();
+    $order_details = $stmt->get_result();
+}else{
+    header('location: account.php');
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,6 +59,40 @@
             </div>	
         </nav>
 
+        <!--Order details-->
+        <section id="orders" class="orders container my-5 py-3">
+            <div class="container mt-5">
+                <h2 class="font-weight-bold text-center">Order details</h2>
+                <hr class="mx-auto">
+            </div>
+
+            <table class="mt-5 pt-5 mx-auto">
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+                <?php while($row = $order_details->fetch_assoc()){?>
+                    <tr>
+                        <td>
+                            <div class="product-info">
+                                <img src="assets/imgs/<?php echo $row['product_image']; ?>">
+                                <div>
+                                    <p class="mt-3"><?php echo $row['product_name']; ?></p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span>$<?php echo $row['product_price']; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo $row['product_quantity']; ?></span>
+                        </td>
+                    
+                    </tr>
+                <?php } ?>
+            </table>
+        </section>
 
     <!--Footer-->
     <footer class="mt-5 py-5">
