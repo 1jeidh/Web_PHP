@@ -9,16 +9,21 @@ $total_records_per_page = 9;
 $offset = ($page_no - 1) * $total_records_per_page;
 
 // 3. Get filter values from GET
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$search_like = "%" . $search . "%";
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 $price    = isset($_GET['price']) ? (int)$_GET['price'] : 1000; // default max price
+$cat_like = "%$category%";
+
 
 // 4. Count total records with/without filter
-if($category != '' || $price != 1000){
+if($category != '' || $price != 1000 || $search != ''){
     $stmt1 = $conn->prepare("SELECT COUNT(*) As total_records 
                              FROM products 
-                             WHERE product_category LIKE ? AND product_price <= ?");
-    $cat_like = "%$category%";
-    $stmt1->bind_param("si", $cat_like, $price);
+                             WHERE product_category LIKE ? 
+                               AND product_price <= ? 
+                               AND product_name LIKE ?");
+    $stmt1->bind_param("sis", $cat_like, $price, $search_like);
 } else {
     $stmt1 = $conn->prepare("SELECT COUNT(*) As total_records FROM products");
 }
@@ -32,11 +37,13 @@ $stmt1->close();
 $total_no_of_pages = ceil($total_records / $total_records_per_page);
 
 // 6. Fetch products with/without filter
-if($category != '' || $price != 1000){
+if($category != '' || $price != 1000 || $search != ''){
     $stmt2 = $conn->prepare("SELECT * FROM products 
-                             WHERE product_category LIKE ? AND product_price <= ? 
+                             WHERE product_category LIKE ? 
+                               AND product_price <= ? 
+                               AND product_name LIKE ? 
                              LIMIT ?, ?");
-    $stmt2->bind_param("siii", $cat_like, $price, $offset, $total_records_per_page);
+    $stmt2->bind_param("sisii", $cat_like, $price, $search_like, $offset, $total_records_per_page);
 } else {
     $stmt2 = $conn->prepare("SELECT * FROM products LIMIT ?, ?");
     $stmt2->bind_param("ii", $offset, $total_records_per_page);
@@ -53,7 +60,11 @@ if(isset($_GET['category'])) {
 if(isset($_GET['price'])) {
     $queryString .= "&price=" . urlencode($_GET['price']);
 }
+if(isset($_GET['search']))  {
+    $queryString .= "&search=" . urlencode($_GET['search']);
+}
 ?>
+
 <?php include('layouts/header.php'); ?>
 
     <section id="shop" class="my-5 py-5">
@@ -62,10 +73,12 @@ if(isset($_GET['price'])) {
 
             <!-- Sidebar (Search) -->
             <div class="col-lg-3 col-md-4 col-sm-12">
-                <p>Search Products</p>
-                <hr>
                 <form action="shop.php" method="GET">
+                    <p>Search Products</p>
+                    <hr>
+                    <input type="text" class="form-control mb-3" name="search" placeholder="Search by name..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                     <p>Category</p>
+                    <hr>
                     <div class="form-check">
                         <input class="form-check-input" value="" type="radio" name="category"
                         <?php if(!isset($_GET['category']) || $_GET['category']==''){echo 'checked';}?>>
@@ -94,6 +107,7 @@ if(isset($_GET['price'])) {
 
                     <div class="mt-4">
                         <p>Price</p>
+                        <hr>
                         <input type="range" class="form-range w-100" name="price"
                         value="<?php echo isset($_GET['price']) ? $_GET['price'] : 1000; ?>"
                         min="1" max="1000" oninput="this.nextElementSibling.innerText = 'Up to $' + this.value">
