@@ -2,10 +2,14 @@
 
 session_start();
 
-if(!empty($_SESSION['cart']) && isset($_POST['checkout'])){
+if(!isset($_SESSION['logged_in'])){
+    header('location: login.php?message=Please login/register to place an order');
+    exit;
+}
 
-}else{
-    header('location: index.php');
+if(empty($_SESSION['cart'])){
+    header('location: index.php?message=Your cart is empty');
+    exit;
 }
 
 ?>
@@ -20,6 +24,12 @@ if(!empty($_SESSION['cart']) && isset($_POST['checkout'])){
         </div>
         <div class="mx-auto container">
             <form id="checkout-form" method="POST" action="server/place_order.php">
+                <p class="text-center" style="color: red;">
+                <?php if(isset($_GET['message'])): ?>
+                    <p class="text-center text-danger"><?php echo $_GET['message']; ?></p>
+                    <a href="login.php" class="btn btn-primary">Login</a>
+                <?php endif; ?>
+                </p>
                 <div class="form-group checkout-small-element">
                     <label>Name</label>
                     <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name" required/>

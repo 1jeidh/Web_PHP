@@ -4,6 +4,16 @@ session_start();
 
 include('connection.php');
 
+if(!isset($_SESSION['logged_in'])){
+    header('location: ../login.php?message=Please login/register to place an order');
+    exit;
+}
+
+if(empty($_SESSION['cart'])){
+    header('location: ../index.php?message=Your cart is empty');
+    exit;
+}
+
 if(isset($_POST['place_order'])){
 
     //get user info -> store in db
@@ -22,7 +32,12 @@ if(isset($_POST['place_order'])){
     
     $stmt->bind_param('isiisss',$order_cost, $order_status, $user_id, $phone, $city, $address, $order_date); 
 
-    $stmt->execute();
+    $stmt_status = $stmt->execute();
+
+    if(!$stmt_status){
+        header('location: index.php');
+        exit;
+    }
 
     //create new order and store order info in db
     $order_id = $stmt->insert_id;
@@ -51,4 +66,5 @@ if(isset($_POST['place_order'])){
     //notify user
     header('location: ../payment.php?order_status=order placed successfully');
 }
+
 ?>

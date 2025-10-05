@@ -1,6 +1,11 @@
 <?php
 
 session_start();
+
+if (!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
+if (!isset($_SESSION['total'])) $_SESSION['total'] = 0;
+
+
 if(isset($_POST['add_to_cart'])){
     //not 1st
     if(isset($_SESSION['cart'])){
