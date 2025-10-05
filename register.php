@@ -28,13 +28,13 @@ if(isset($_POST['register'])){
         if($num_rows != 0){
             header('location: register.php?error=user with this email already exists');
         }else{
-            $stmt = $conn->prepare("INSERT INTO users (user_name, user_email, user_password)
-            VALUES (?, ?, ?)");
+            $user_role = 'user';
+            $stmt = $conn->prepare("INSERT INTO users (user_name, user_email, user_password, user_role) VALUES (?, ?, ?, ?)");
             $hashed_password = md5($password);
-            $stmt->bind_param('sss',$name,$email,$hashed_password);
+            $stmt->bind_param('ssss', $name, $email, $hashed_password, $user_role);
             
             if($stmt->execute()){
-                 $user_id = $conn->insert_id;
+                $user_id = $conn->insert_id;
                 $_SESSION['user_id'] = $user_id;
                 $_SESSION['user_email'] = $email;
                 $_SESSION['user_name'] = $name;
