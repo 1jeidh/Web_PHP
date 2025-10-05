@@ -86,7 +86,7 @@ if(isset($_SESSION['logged_in'])){
     </section>
 
     <!--Orders-->
-    <section id="orders" class="orders container my-5 py-3">
+    <section id="orders" class="orders container my-5">
         <div class="container mt-2">
             <h2 class="font-weight-bold text-center">Your Orders</h2>
             <hr class="mx-auto">
@@ -127,7 +127,7 @@ if(isset($_SESSION['logged_in'])){
                 <?php endwhile; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="4">You have no orders yet.</td>
+                    <td colspan="5" class="text-center py-4">You have no orders yet.</td>
                 </tr>
             <?php endif; ?>
 

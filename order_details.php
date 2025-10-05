@@ -33,7 +33,7 @@ function calculateTotalOrderPrice($order_details){
 
         <!--Order details-->
         <section id="orders" class="orders container my-5 py-3">
-            <div class="container mt-5">
+            <div class="container my-5 py-4">
                 <h2 class="font-weight-bold text-center">Order details</h2>
                 <hr class="mx-auto">
             </div>

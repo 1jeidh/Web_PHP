@@ -642,3 +642,11 @@ th:last-child{
     height: auto;  
     object-fit: contain; 
 }
+
+#paypal-button-container {
+    width: 100% !important;
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
