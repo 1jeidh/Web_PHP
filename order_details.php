@@ -53,7 +53,7 @@ if(isset($_GET['order_details_btn']) && isset($_GET['order_id'])){
                 
             </table>
             <?php if($order_status == "not paid"){?>
-                <form style="float: right;">
+                <form style="float: right;" method="POST" action="payment.php">
                     <input type="submit" class="btn btn-primary" value="Pay now">
                 </form>
             <?php } ?>
