@@ -1,14 +1,14 @@
 <?php
 include('server/connection.php');
 
-// 1. Get current page number
+// Get current page number
 $page_no = isset($_GET['page_no']) && $_GET['page_no'] != "" ? (int)$_GET['page_no'] : 1;
 
-// 2. Pagination settings
+// Pagination settings
 $total_records_per_page = 9;
 $offset = ($page_no - 1) * $total_records_per_page;
 
-// 3. Get filter values from GET
+// Get filter values from GET
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $search_like = "%" . $search . "%";
 $category = isset($_GET['category']) ? $_GET['category'] : '';
@@ -16,7 +16,7 @@ $price    = isset($_GET['price']) ? (int)$_GET['price'] : 1000; // default max p
 $cat_like = "%$category%";
 
 
-// 4. Count total records with/without filter
+// Count total records with/without filter
 if($category != '' || $price != 1000 || $search != ''){
     $stmt1 = $conn->prepare("SELECT COUNT(*) As total_records 
                              FROM products 
@@ -33,10 +33,10 @@ $stmt1->bind_result($total_records);
 $stmt1->fetch();
 $stmt1->close();
 
-// 5. Calculate total pages
+// Calculate total pages
 $total_no_of_pages = ceil($total_records / $total_records_per_page);
 
-// 6. Fetch products with/without filter
+// Fetch products with/without filter
 if($category != '' || $price != 1000 || $search != ''){
     $stmt2 = $conn->prepare("SELECT * FROM products 
                              WHERE product_category LIKE ? 
@@ -52,7 +52,7 @@ if($category != '' || $price != 1000 || $search != ''){
 $stmt2->execute();
 $products = $stmt2->get_result();
 
-// 7. Build query string for pagination (to keep filters in URL)
+// Build query string for pagination (to keep filters in URL)
 $queryString = "";
 if(isset($_GET['category'])) {
     $queryString .= "&category=" . urlencode($_GET['category']);
