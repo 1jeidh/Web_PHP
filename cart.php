@@ -102,40 +102,39 @@ function calculateTotalCart(){
                 <th>Subtotal</th>
             </tr>
 
-            <?php foreach($_SESSION['cart'] as $key => $value){ ?>
+            <?php if(empty($_SESSION['cart'])) { ?>
                 <tr>
-                    <td>
-                        <div class="product-info">
-                            <img src="assets/imgs/<?php echo $value['product_image']; ?>"/>
-                            <div>
-                                <p><?php echo $value['product_name']; ?></p>
-                                <small><span style="padding-left: 4px;">$</span><?php echo $value['product_price']; ?></small>
-                                <br>
-                                <form method="POST" action="cart.php">
-                                    <input type="hidden" name="product_id" value="<?php echo $value['product_id']; ?>"/>
-                                    <input type="submit" name="remove_product" class="remove-btn" value="remove"/>
-                                </form>
-                                
-                            </div>
-                        </div>
-                    </td>
-
-                    <td>
-                        <form method="POST" action="cart.php">
-                            <input type="hidden" name="product_id" value="<?php echo $value['product_id'];?>"/>
-                            <input type="number" name="product_quantity" value="<?php echo $value['product_quantity']; ?>"/>
-                            <input type="submit" class="edit-btn" value="edit" name="edit_quantity"/>
-                        </form>
-                        
-                    </td>
-
-                    <td>
-                        <span>$</span>
-                        <span class="product-price"><?php echo $value['product_quantity'] * $value['product_price'];?></span>
+                    <td colspan="3" class="text-center py-4">
+                        Your cart is empty.
                     </td>
                 </tr>
-            <?php }?>
-            
+            <?php } else { ?>
+                <?php foreach($_SESSION['cart'] as $key => $value){ ?>
+                    <tr>
+                        <td>
+                            <div class="product-info">
+                                <img src="assets/imgs/<?php echo $value['product_image']; ?>"/>
+                                <div>
+                                    <p><?php echo $value['product_name']; ?></p>
+                                    <small><span>$</span><?php echo $value['product_price']; ?></small>
+                                    <form method="POST" action="cart.php">
+                                        <input type="hidden" name="product_id" value="<?php echo $value['product_id']; ?>"/>
+                                        <input type="submit" name="remove_product" class="remove-btn" value="remove"/>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <form method="POST" action="cart.php">
+                                <input type="hidden" name="product_id" value="<?php echo $value['product_id'];?>"/>
+                                <input type="number" name="product_quantity" value="<?php echo $value['product_quantity']; ?>"/>
+                                <input type="submit" class="edit-btn" value="edit" name="edit_quantity"/>
+                            </form>
+                        </td>
+                        <td>$<?php echo $value['product_quantity'] * $value['product_price'];?></td>
+                    </tr>
+                <?php } ?>
+            <?php } ?>
         </table>
 
         <div class="cart-total">
