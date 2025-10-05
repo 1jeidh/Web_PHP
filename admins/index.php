@@ -57,7 +57,6 @@ $orders = $stmt2->get_result();
                             <th>Phone</th>
                             <th>Address</th>
                             <th>Edit</th>
-                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,9 +71,7 @@ $orders = $stmt2->get_result();
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="edit_order.php?order_id=<?php echo $order['order_id']; ?>">Edit</a>
                                 </td>
-                                <td>
-                                    <a class="btn btn-danger btn-sm" href="delete_order.php?order_id=<?php echo $order['order_id']; ?>">Delete</a>
-                                </td>
+
                             </tr>
                         <?php endwhile; ?>
                     </tbody>
@@ -112,4 +109,3 @@ $orders = $stmt2->get_result();
 <script>
     feather.replace()
 </script>
-<script src="dashboard.js"></script>
