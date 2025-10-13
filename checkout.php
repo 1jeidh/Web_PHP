@@ -1,61 +1,62 @@
 <?php
-
 session_start();
 
-if(!isset($_SESSION['logged_in'])){
+if (!isset($_SESSION['logged_in'])) {
     header('location: login.php?message=Please login/register to place an order');
     exit;
 }
 
-if(empty($_SESSION['cart'])){
+// Read data from the temporary checkout session
+if (!isset($_SESSION['checkout_data']) || empty($_SESSION['checkout_data']['cart'])) {
     header('location: index.php?message=Your cart is empty');
     exit;
 }
 
+$total = $_SESSION['checkout_data']['total'];
 ?>
 
 <?php include('layouts/header.php'); ?>
 
-    <!--Checkout-->
-    <section class="my-5 py-5">
-        <div class="container text-center mt-3 pt-5">
-            <h2 class="font-weight-bold">Check Out</h2>
-            <hr class="mx-auto">
-        </div>
-        <div class="mx-auto container">
-            <form id="checkout-form" method="POST" action="server/place_order.php">
-                <p class="text-center" style="color: red;">
-                <?php if(isset($_GET['message'])): ?>
-                    <p class="text-center text-danger"><?php echo $_GET['message']; ?></p>
-                    <a href="login.php" class="btn btn-primary">Login</a>
-                <?php endif; ?>
-                </p>
-                <div class="form-group checkout-small-element">
-                    <label>Name</label>
-                    <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name" required/>
-                </div>
-                <div class="form-group checkout-small-element">
-                    <label>Email</label>
-                    <input type="text" class="form-control" id="checkout-email" name="email" placeholder="Email" required/>
-                </div>
-                <div class="form-group checkout-small-element">
-                    <label>Phone</label>
-                    <input type="tel" class="form-control" id="checkout-phone" name="phone" placeholder="Phone" required/>
-                </div>
-                <div class="form-group checkout-small-element">
-                    <label>City</label>
-                    <input type="text" class="form-control" id="checkout-city" name="city" placeholder="City" required/>
-                </div>
-                <div class="form-group checkout-large-element">
-                    <label>Address</label>
-                    <input type="text" class="form-control" id="checkout-address" name="address" placeholder="Address" required/>
-                </div>
-                <div class="form-group checkout-btn-container">
-                    <p>Total ammount: $<?php echo $_SESSION['total']; ?></p>
-                    <input type="submit" class="btn" id="checkout-btn" name="place_order" value="Place Order"/>
-                </div>
-            </form>
-        </div>
-    </section>
+<!--Checkout-->
+<section class="my-5 py-5">
+    <div class="container text-center mt-3 pt-5">
+        <h2 class="font-weight-bold">Check Out</h2>
+        <hr class="mx-auto">
+    </div>
+
+    <div class="mx-auto container">
+        <form id="checkout-form" method="POST" action="server/place_order.php">
+            <?php if (isset($_GET['message'])): ?>
+                <p class="text-center text-danger"><?php echo $_GET['message']; ?></p>
+                <a href="login.php" class="btn btn-primary">Login</a>
+            <?php endif; ?>
+
+            <div class="form-group checkout-small-element">
+                <label>Name</label>
+                <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name" required />
+            </div>
+            <div class="form-group checkout-small-element">
+                <label>Email</label>
+                <input type="text" class="form-control" id="checkout-email" name="email" placeholder="Email" required />
+            </div>
+            <div class="form-group checkout-small-element">
+                <label>Phone</label>
+                <input type="tel" class="form-control" id="checkout-phone" name="phone" placeholder="Phone" required />
+            </div>
+            <div class="form-group checkout-small-element">
+                <label>City</label>
+                <input type="text" class="form-control" id="checkout-city" name="city" placeholder="City" required />
+            </div>
+            <div class="form-group checkout-large-element">
+                <label>Address</label>
+                <input type="text" class="form-control" id="checkout-address" name="address" placeholder="Address" required />
+            </div>
+            <div class="form-group checkout-btn-container">
+                <p>Total amount: $<?php echo $total; ?></p>
+                <input type="submit" class="btn" id="checkout-btn" name="place_order" value="Place Order" />
+            </div>
+        </form>
+    </div>
+</section>
 
 <?php include('layouts/footer.php'); ?>
